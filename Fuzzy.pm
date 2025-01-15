@@ -180,6 +180,8 @@ sub _check_fuzzy {
   return 0 if not defined $hash;
 
   my @res;
+  my $score = 0;
+  my %match;
   if(defined $pms->{conf}->{fuzzy_redis_srv}) {
     my $redis_srv = untaint_var($pms->{conf}->{fuzzy_redis_srv});
     my $redis_db = untaint_var($pms->{conf}->{fuzzy_redis_db});
@@ -189,8 +191,9 @@ sub _check_fuzzy {
     my @hash = split(':', $hash);
     my @keys = $redis->keys($hash[0] . ':*');
     foreach my $k ( @keys ) {
-      my $score = ssdeep_compare($hash, $k);
+      $score = ssdeep_compare($hash, $k);
       push(@res, $score);
+      $match{$score} = $k;
     }
     $redis->quit;
   }
@@ -198,7 +201,7 @@ sub _check_fuzzy {
   $pms->{fuzzy_score} = max @res;
   return 0 if not defined $pms->{fuzzy_score};
 
-  dbg("Found a fuzzy score of $pms->{fuzzy_score}");
+  dbg("Found a fuzzy score of $pms->{fuzzy_score} that matches hash $match{$score}");
   return 1;
 }
 
