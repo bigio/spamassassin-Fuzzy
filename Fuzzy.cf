@@ -1,0 +1,14 @@
+ifplugin Mail::SpamAssassin::Plugin::Fuzzy
+
+  # fuzzy_redis_srv redis:6379
+  # fuzzy_redis_db  3
+
+  body        FUZZY100      eval:fuzzy_check_100()
+  describe    FUZZY100      Message body checked in spam signature and 100% spam
+  score       FUZZY100      1.5
+
+  body        FUZZY90       eval:fuzzy_check_90_100()
+  describe    FUZZY90       Message body checked in spam signature and 90% spam
+  score       FUZZY90       1.0
+
+endif
