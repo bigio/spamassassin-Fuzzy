@@ -11,4 +11,8 @@ ifplugin Mail::SpamAssassin::Plugin::Fuzzy
   describe    FUZZY90       Message body checked in spam signature and 90% spam
   score       FUZZY90       1.0
 
+  body        FUZZY80       eval:fuzzy_check_80_90()
+  describe    FUZZY80       Message body checked in spam signature and 80% spam
+  score       FUZZY80       0.5
+
 endif

@@ -55,6 +55,7 @@ sub new {
   $self->set_config($mailsaobject->{conf});
   $self->register_eval_rule('fuzzy_check_100',  $Mail::SpamAssassin::Conf::TYPE_BODY_EVALS);
   $self->register_eval_rule('fuzzy_check_90_100',  $Mail::SpamAssassin::Conf::TYPE_BODY_EVALS);
+  $self->register_eval_rule('fuzzy_check_80_90',  $Mail::SpamAssassin::Conf::TYPE_BODY_EVALS);
 
   return $self;
 }
@@ -143,6 +144,17 @@ sub fuzzy_check_90_100 {
 
   return 0 if not defined $pms->{fuzzy_score};
   if(($pms->{fuzzy_score} > 90) and ($pms->{fuzzy_score} < 100)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+sub fuzzy_check_80_90 {
+  my ($self, $pms) = @_;
+
+  return 0 if not defined $pms->{fuzzy_score};
+  if(($pms->{fuzzy_score} > 80) and ($pms->{fuzzy_score} < 90)) {
     return 1;
   } else {
     return 0;
