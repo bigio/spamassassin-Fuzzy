@@ -24,7 +24,7 @@ tstprefs("
   ifplugin Mail::SpamAssassin::Plugin::Fuzzy
 
     fuzzy_redis_srv 127.0.0.1:6379
-    fuzzy_redis_db  1
+    fuzzy_redis_db  0
 
     body        FUZZY100      eval:fuzzy_check_100()
     describe    FUZZY100      Message body checked in spam signature and 100% spam
