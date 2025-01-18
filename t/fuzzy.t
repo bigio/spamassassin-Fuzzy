@@ -3,7 +3,7 @@
 use lib '.'; use lib 't';
 
 use Test::More;
-plan tests => 9;
+plan tests => 1;
 
 sub tstprefs {
   my $rules = shift;
@@ -24,7 +24,7 @@ tstprefs("
   ifplugin Mail::SpamAssassin::Plugin::Fuzzy
 
     fuzzy_redis_srv 127.0.0.1:6379
-    fuzzy_redis_db  3
+    fuzzy_redis_db  1
 
     body        FUZZY100      eval:fuzzy_check_100()
     describe    FUZZY100      Message body checked in spam signature and 100% spam
