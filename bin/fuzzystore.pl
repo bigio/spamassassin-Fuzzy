@@ -12,6 +12,37 @@
 
 # Author:  Giovanni Bechis <g.bechis@snb.it>
 
+=head1 NAME
+
+fuzzystore.pl - save fuzzy signature on Redis database
+
+=head1 SYNOPSIS
+
+fuzzystore.pl [OPTION]
+
+=head1 DESCRIPTION
+
+fuzzystore.pl calculates emails fuzzy signature and saves the signature on a Redis server.
+
+	-f email
+		reads the specified email file in RFC822 format
+
+	-s server
+		saves fuzzy signature on the specified Redis server
+
+	-S score
+		calculate the fuzzy signature only if the email has a score
+		of \$score or higher.
+		The score is read from the X-Spam-Status email header, the
+		default score is 5.0.
+
+	-F
+		calculate the fuzzy signature even if the spam score is not
+		high enough. 
+
+
+=cut
+
 use strict;
 use warnings;
 
