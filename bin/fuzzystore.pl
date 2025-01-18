@@ -40,6 +40,9 @@ fuzzystore.pl calculates emails fuzzy signature and saves the signature on a Red
 		calculate the fuzzy signature even if the spam score is not
 		high enough. 
 
+	-v
+		prints to STDOUT the calculated hash and other info
+
 
 =cut
 
@@ -58,11 +61,12 @@ use Digest::ssdeep qw/ssdeep_hash/;
 my %opts = ();
 my ($file, $redis_srv, $redis, $min_score);
 my $force = 0;
+my $verbose = 0;
 
-getopts('FS:f:s:', \%opts);
+getopts('FS:f:s:v', \%opts);
 
 sub usage {
-  print "$0 [ -F -S \$score -f \$file -s \$redis_srv ]\n";
+  print "$0 [ -F -v -S \$score -f \$file -s \$redis_srv ]\n";
   exit;
 }
 
@@ -73,6 +77,9 @@ $min_score //= 5;
 
 if($opts{'F'}) {
   $force = 1;
+}
+if($opts{'v'}) {
+  $verbose = 1;
 }
 
 if(not defined $file) {
@@ -166,6 +173,9 @@ if(defined $redis_srv) {
 }
 
 print to_json(\%hash);
+if($verbose) {
+  print " [ $hash ] ";
+}
 if ( defined $redis_srv ) {
   if(($score > $min_score) or $force) {
     print " (saved to Redis)";
