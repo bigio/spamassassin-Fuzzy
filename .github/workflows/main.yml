@@ -47,6 +47,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install spamassassin cpanminus redis-tools
+      - name: fix permissions
+        run: sudo chmod o-w /usr/local/bin
       - name: install dependencies from Cpan
         run: |
           cpanm -n Redis Digest::ssdeep
