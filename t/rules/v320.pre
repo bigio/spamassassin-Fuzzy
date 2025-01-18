@@ -22,11 +22,11 @@ loadplugin Mail::SpamAssassin::Plugin::Check
 
 # HTTPSMismatch - find URI mismatches between href and anchor text
 #
-loadplugin Mail::SpamAssassin::Plugin::HTTPSMismatch
+# loadplugin Mail::SpamAssassin::Plugin::HTTPSMismatch
 
 # URIDetail - test URIs using detailed URI information
 #
-loadplugin Mail::SpamAssassin::Plugin::URIDetail
+# loadplugin Mail::SpamAssassin::Plugin::URIDetail
 
 # Shortcircuit - stop evaluation early if high-accuracy rules fire
 # 
@@ -36,13 +36,13 @@ loadplugin Mail::SpamAssassin::Plugin::URIDetail
 # broken out into separate plugins
 # loadplugin Mail::SpamAssassin::Plugin::Bayes
 loadplugin Mail::SpamAssassin::Plugin::BodyEval
-loadplugin Mail::SpamAssassin::Plugin::DNSEval
-loadplugin Mail::SpamAssassin::Plugin::HTMLEval
-loadplugin Mail::SpamAssassin::Plugin::HeaderEval
+# loadplugin Mail::SpamAssassin::Plugin::DNSEval
+# loadplugin Mail::SpamAssassin::Plugin::HTMLEval
+# loadplugin Mail::SpamAssassin::Plugin::HeaderEval
 loadplugin Mail::SpamAssassin::Plugin::MIMEEval
-loadplugin Mail::SpamAssassin::Plugin::RelayEval
-loadplugin Mail::SpamAssassin::Plugin::URIEval
-loadplugin Mail::SpamAssassin::Plugin::WLBLEval
+# loadplugin Mail::SpamAssassin::Plugin::RelayEval
+# loadplugin Mail::SpamAssassin::Plugin::URIEval
+# loadplugin Mail::SpamAssassin::Plugin::WLBLEval
 
 # VBounce - anti-bounce-message rules, see rules/20_vbounce.cf
 #
