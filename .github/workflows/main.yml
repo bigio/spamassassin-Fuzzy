@@ -1,0 +1,70 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI for Apache SpamAssassin Fuzzy plugin
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ tests ]
+  pull_request:
+    branches: [ tests ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    env:
+      # The hostname used to communicate with the Redis service container
+      REDIS_HOST: localhost
+      # The default Redis port
+      REDIS_PORT: 6379
+      # some plugins still needs this to run their tests...
+      PERL_USE_UNSAFE_INC: 0
+      DEBIAN_FRONTEND: noninteractive
+    runs-on: ${{ matrix.platform }}
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 6379 on service container to the host
+          - 6379:6379
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: install Apache SpamAssassin and Redis
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install spamassassin cpanminus redis-tools
+      - name: install dependencies from Cpan
+        run: |
+          sudo cpanm -n Redis Digest::ssdeep
+          hash -r
+      - name: fix permissions
+        run: sudo chmod o-w /usr/local/bin
+      - name: load data into Redis
+        run: echo 1 | redis-cli -h localhost -x set 3:kOWGgmTIxeVqIYzqh7j02WRFRbsmBn/LJ:k4RTYe1kqpW9s2nDJ
+      - name: update Apache SpamAssassin rules
+        run: sudo sa-update
+      - name: Regression tests
+        run: prove -lv t
+
