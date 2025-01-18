@@ -49,7 +49,7 @@ jobs:
           cpanm -n Redis Digest::ssdeep
           hash -r
       - name: load data into Redis
-        run: echo 1 | redis-cli -h redis -x set 3:kOWGgmTIxeVqIYzqh7j02WRFRbsmBn/LJ:k4RTYe1kqpW9s2nDJ
+        run: echo 1 | redis-cli -h localhost -x set 3:kOWGgmTIxeVqIYzqh7j02WRFRbsmBn/LJ:k4RTYe1kqpW9s2nDJ
       - name: update Apache SpamAssassin rules
         run: sudo sa-update
       - name: Regression tests
@@ -57,6 +57,6 @@ jobs:
 
     env:
       # The hostname used to communicate with the Redis service container
-      REDIS_HOST: redis
+      REDIS_HOST: localhost
       # The default Redis port
       REDIS_PORT: 6379
