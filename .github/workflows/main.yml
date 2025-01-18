@@ -51,6 +51,7 @@ jobs:
         run: |
           cpanm -n Redis Digest::ssdeep
           hash -r
+          cpanm --installdeps --notest .  || echo "warn: errors installing required cpan modules have been ignored"
       - name: load data into Redis
         run: echo 1 | redis-cli -h localhost -x set 3:kOWGgmTIxeVqIYzqh7j02WRFRbsmBn/LJ:k4RTYe1kqpW9s2nDJ
       - name: update Apache SpamAssassin rules
