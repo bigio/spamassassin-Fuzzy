@@ -57,9 +57,11 @@ jobs:
           sudo apt-get -y install spamassassin cpanminus redis-tools
       - name: install dependencies from Cpan
         run: |
-          cpanm -n Redis Digest::ssdeep
+          sudo cpanm -n Redis Digest::ssdeep
           hash -r
           sudo cpanm --installdeps --notest .  || echo "warn: errors installing required cpan modules have been ignored"
+      - name: fix permissions
+        run: sudo chmod o-w /usr/local/bin
       - name: load data into Redis
         run: echo 1 | redis-cli -h localhost -x set 3:kOWGgmTIxeVqIYzqh7j02WRFRbsmBn/LJ:k4RTYe1kqpW9s2nDJ
       - name: update Apache SpamAssassin rules
