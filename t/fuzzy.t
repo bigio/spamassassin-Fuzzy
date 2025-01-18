@@ -34,7 +34,7 @@ tstprefs("
 ");
 
 chomp($sarun);
-my $test = qx($sarun -t --siteconfigpath=t/rules < t/data/gtube.eml);
+my $test = qx($sarun -L -t --siteconfigpath=t/rules < t/data/gtube.eml);
 like($test, "/FUZZY100/");
 
 tstcleanup();
