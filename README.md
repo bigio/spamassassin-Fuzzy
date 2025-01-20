@@ -13,6 +13,9 @@ The plugin requires the following Perl modules:
 - Redis
 - Text::WagnerFischer
 
+To install the plugin just run `make install`, the plugin will be installed into `/etc/mail/spamassassin`,
+the Perl script into `/usr/local/bin` and man pages under `/usr/local/share/man`.
+
 ## Usage
 
-Copy the Fuzzy.* files under /etc/mail/spamassassin and configure Fuzzy.cf with your Redis server
+Configure Fuzzy.cf with your Redis server
