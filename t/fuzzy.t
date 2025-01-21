@@ -3,7 +3,7 @@
 use lib '.'; use lib 't';
 
 use Test::More;
-plan tests => 1;
+plan tests => 2;
 
 sub tstprefs {
   my $rules = shift;
@@ -36,5 +36,8 @@ tstprefs("
 chomp($sarun);
 my $test = qx($sarun -L -t --siteconfigpath=t/rules < t/data/gtube.eml);
 like($test, "/FUZZY100/");
+
+$test = qx($sarun -L -t --siteconfigpath=t/rules < t/data/bulk.eml);
+unlike($test, "/FUZZY100/");
 
 tstcleanup();
