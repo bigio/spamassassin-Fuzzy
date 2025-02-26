@@ -218,7 +218,7 @@ sub _check_fuzzy {
   $pms->{fuzzy_score} = max @res;
   return 0 if not defined $pms->{fuzzy_score};
 
-  dbg("Found a fuzzy score of $pms->{fuzzy_score} that matches hash $match{$score}");
+  dbg("Found a fuzzy score of $pms->{fuzzy_score} that matches hash $match{$pms->{fuzzy_score}}");
   return 1;
 }
 
