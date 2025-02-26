@@ -205,6 +205,7 @@ sub _check_fuzzy {
     my @keys = $redis->keys($hash[0] . ':*');
     foreach my $k ( @keys ) {
       $score = ssdeep_compare($hash, $k);
+      next if $score eq 0;
       push(@res, $score);
       $match{$score} = $k;
       last if $score eq 100;
