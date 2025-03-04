@@ -105,18 +105,18 @@ Set the Redis server from where to read fuzzy hashes.
 
 =over 4
 
-=item fuzzy_redis_read_timeout (default: 5)
+=item fuzzy_redis_cnx_timeout (default: 10)
 
 The Redis client will wait at most that number of seconds (can be fractional)
-before giving up when reading from the server.
+before giving up connecting to a server.
 
 =back
 
 =cut
 
   push(@cmds, {
-    setting => 'fuzzy_redis_read_timeout',
-    default => '5',
+    setting => 'fuzzy_redis_cnx_timeout',
+    default => 10,
     type => $Mail::SpamAssassin::Conf::CONF_TYPE_NUMERIC,
   });
 
@@ -216,9 +216,13 @@ sub _check_fuzzy {
   if(defined $pms->{conf}->{fuzzy_redis_srv}) {
     my $redis_srv = untaint_var($pms->{conf}->{fuzzy_redis_srv});
     my $redis_db = untaint_var($pms->{conf}->{fuzzy_redis_db});
-    my $redis_read_timeout = untaint_var($pms->{conf}->{fuzzy_redis_read_timeout});
+    my $redis_cnx_timeout = untaint_var($pms->{conf}->{fuzzy_redis_cnx_timeout});
 
-    my $redis = Redis->new(server => $redis_srv, read_timeout => $redis_read_timeout);
+    my $redis = Redis->new(server => $redis_srv, cnx_timeout => $redis_cnx_timeout);
+    if(not defined $redis) {
+      dbg("Cannot connect to Redis server $redis_srv");
+      return 0;
+    }
     $redis->select($redis_db);
     my @hash = split(':', $hash);
     my @keys = $redis->keys($hash[0] . ':*');
