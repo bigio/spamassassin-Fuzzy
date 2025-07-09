@@ -198,8 +198,10 @@ sub _check_fuzzy {
     # remove href links if there is a parameter on the link
     $body =~ s/((?:href|src)[^>]*)[?#][^>]*>/$1/gms;
   } elsif(not defined $body) {
-    $textbody =~ s/\R//g;
-    $body = $textbody;
+    if(defined($textbody)) {
+      $textbody =~ s/\R//g;
+      $body = $textbody;
+    }
   }
 
   my ($hash, $hex);
